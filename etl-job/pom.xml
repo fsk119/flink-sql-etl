@@ -127,11 +127,14 @@
 <!--        </dependency>-->
 
         <!--  jdbc connector -->
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-jdbc_${scala.binary.version}</artifactId>
-            <version>${flink.version}</version>
-        </dependency>
+        <!-- old module -->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--                    <artifactId>flink-jdbc_${scala.binary.version}</artifactId>-->
+<!--                    <version>${flink.version}</version>-->
+<!--        </dependency>-->
+        <!-- old module -->
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -160,11 +163,11 @@
 <!--            <version>2.12.1</version>-->
 <!--        </dependency>-->
         <!--   hbase connector     -->
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-hbase_${scala.binary.version}</artifactId>
-            <version>${flink.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--            <artifactId>flink-hbase_${scala.binary.version}</artifactId>-->
+<!--            <version>${flink.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>

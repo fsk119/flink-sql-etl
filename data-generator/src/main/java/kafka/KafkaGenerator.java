@@ -9,7 +9,7 @@ import java.util.Properties;
 public class KafkaGenerator {
     public static void main(String[] args) throws JsonProcessingException, InterruptedException {
         Properties kafkaProperties = new Properties();
-        kafkaProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        kafkaProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9094");
         kafkaProperties.put(ProducerConfig.ACKS_CONFIG, "all");
         kafkaProperties.put(ProducerConfig.RETRIES_CONFIG, "0");
         kafkaProperties.put(ProducerConfig.LINGER_MS_CONFIG, "1");

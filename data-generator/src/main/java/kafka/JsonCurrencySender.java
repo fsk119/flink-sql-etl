@@ -20,7 +20,7 @@ public class JsonCurrencySender {
     private static final Logger logger = LoggerFactory.getLogger(JsonCurrencySender.class);
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final SendCallBack sendCallBack = new SendCallBack();
-    private static final String topicName = "flink_currency1";
+    private static final String topicName = "currency";
     private static final Map<String, Integer> currency2rates = initCurrency2rates();
     private static final Map<String, String> country2currency = initCountry2Currency();
 
