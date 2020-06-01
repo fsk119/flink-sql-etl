@@ -9,8 +9,8 @@ CREATE TABLE orders (
   ts as order_time + INTERVAL '1' SECOND,
   WATERMARK FOR order_time AS order_time) WITH (
   'connector.type' = 'kafka',
-  'connector.version' = '0.10',
-  'connector.topic' = 'flink_orders',
+  'connector.version' = 'universal',
+  'connector.topic' = 'orders',
   'connector.properties.zookeeper.connect' = 'localhost:2181',
   'connector.properties.bootstrap.servers' = 'localhost:9092',
   'connector.properties.group.id' = 'testGroup3',
@@ -26,7 +26,7 @@ CREATE TABLE order_cnt (
   total_quality BIGINT
 ) WITH (
   'connector.type' = 'kafka',
-  'connector.version' = '0.10',
+  'connector.version' = 'universal',
   'connector.topic' = 'order_cnt',
   'update-mode' = 'append',
   'connector.properties.zookeeper.connect' = 'localhost:2181',

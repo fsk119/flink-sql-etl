@@ -1,13 +1,14 @@
 -- from csv data to kafka
-create table csv( user_name VARCHAR, is_new BOOLEAN, content VARCHAR) with ( 'connector.type' = 'filesystem',
- 'connector.path' = '/Users/bang/sourcecode/project/flink-sql-etl/data-generator/src/main/resources/user.csv',
- 'format.type' = 'csv')
+create table csv( user_name VARCHAR, is_new BOOLEAN, content VARCHAR) with ( 
+    'connector.type' = 'filesystem',
+    'connector.path' = '/Users/ohmeatball/Work/flink-sql-etl/data-generator/src/main/resources/user.csv',
+    'format.type' = 'csv')
 CREATE TABLE csvData (
   user_name STRING,
   is_new    BOOLEAN,
   content STRING) WITH (
   'connector.type' = 'kafka',
-  'connector.version' = '0.10',
+  'connector.version' = 'universal',
   'connector.topic' = 'csv_data',
   'connector.properties.zookeeper.connect' = 'localhost:2181',
   'connector.properties.bootstrap.servers' = 'localhost:9092',
@@ -24,7 +25,7 @@ CREATE TABLE csvData (
   is_new    BOOLEAN,
   content STRING) WITH (
   'connector.type' = 'kafka',
-  'connector.version' = '0.10',
+  'connector.version' = 'universal',
   'connector.topic' = 'csv_data',
   'connector.properties.zookeeper.connect' = 'localhost:2181',
   'connector.properties.bootstrap.servers' = 'localhost:9092',
@@ -32,7 +33,7 @@ CREATE TABLE csvData (
   'connector.startup-mode' = 'earliest-offset',
   'format.type' = 'csv')
 create table csvTest( user_name VARCHAR, is_new BOOLEAN, content VARCHAR) with ( 'connector.type' = 'filesystem',
- 'connector.path' = '/Users/bang/sourcecode/project/flink-sql-etl/data-generator/src/main/resources/test.csv',
+ 'connector.path' = '/Users/ohmeatball/Work/flink-sql-etl/data-generator/src/main/resources/test.csv',
  'format.type' = 'csv',
  'update-mode' = 'append',
  'format.fields.0.name' = 'user_name',

@@ -1,13 +1,19 @@
 -- first job: build avro format data from csv and write to kafka topic
-create table csv( user_name VARCHAR, is_new BOOLEAN, content VARCHAR) with ( 'connector.type' = 'filesystem',
- 'connector.path' = '/Users/bang/sourcecode/project/flink-sql-etl/data-generator/src/main/resources/user.csv',
- 'format.type' = 'csv')
+create table csv( 
+    user_name VARCHAR, 
+    is_new BOOLEAN, 
+    content VARCHAR
+) with ( 
+    'connector.type' = 'filesystem',
+    'connector.path' = '/Users/ohmeatball/Work/flink-sql-etl/data-generator/src/main/resources/user.csv',
+    'format.type' = 'csv')
+
 CREATE TABLE AvroTest (
   user_name VARCHAR,
   is_new BOOLEAN,
   content VARCHAR) WITH (
   'connector.type' = 'kafka',
-  'connector.version' = '0.10',
+  'connector.version' = 'universal',
   'connector.topic' = 'avro_from_csv',
   'connector.properties.zookeeper.connect' = 'localhost:2181',
   'connector.properties.bootstrap.servers' = 'localhost:9092',
@@ -26,7 +32,7 @@ CREATE TABLE AvroTest (
   is_new BOOLEAN,
   content VARCHAR) WITH (
   'connector.type' = 'kafka',
-  'connector.version' = '0.10',
+  'connector.version' = 'universal',
   'connector.topic' = 'avro_from_csv',
   'connector.properties.zookeeper.connect' = 'localhost:2181',
   'connector.properties.bootstrap.servers' = 'localhost:9092',
@@ -41,7 +47,7 @@ CREATE TABLE WikipediaFeed_filtered (
   is_new    BOOLEAN,
   content STRING) WITH (
   'connector.type' = 'kafka',
-  'connector.version' = '0.10',
+  'connector.version' = 'universal',
   'connector.topic' = 'WikipediaFeed2_filtered',
   'connector.properties.zookeeper.connect' = 'localhost:2181',
   'connector.properties.bootstrap.servers' = 'localhost:9092',
