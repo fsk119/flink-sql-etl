@@ -10,8 +10,8 @@ CREATE TABLE orders (
   WATERMARK FOR order_time AS order_time
 ) WITH (
   'connector.type' = 'kafka',
-  'connector.version' = '0.10',
-  'connector.topic' = 'flink_orders2',
+  'connector.version' = 'universal',
+  'connector.topic' = 'orders',
   'connector.properties.zookeeper.connect' = 'localhost:2181',
   'connector.properties.bootstrap.servers' = 'localhost:9092',
   'connector.properties.group.id' = 'testGroup3',
@@ -24,15 +24,16 @@ CREATE TABLE currency (
   currency_id BIGINT,
   currency_name STRING,
   rate DOUBLE,
-  currency_time TIMESTAMP(3),
+  currency_timestamp TIMESTAMP(3),
   country STRING,
-  timestamp9 TIMESTAMP(3),
-  time9 TIME(3),
+  precise_timestamp TIMESTAMP(6),
+  precise_time TIME(6),
   gdp DECIMAL(38, 18)
 ) WITH (
    'connector.type' = 'jdbc',
-   'connector.url' = 'jdbc:mysql://localhost:3306/test',
+   'connector.url' = 'jdbc:mysql://localhost:3306/flink',
    'connector.username' = 'root',
+   'connector.password' = '123456',
    'connector.table' = 'currency',
    'connector.driver' = 'com.mysql.jdbc.Driver',
    'connector.lookup.cache.max-rows' = '500',
@@ -48,8 +49,9 @@ CREATE TABLE gmv (
   gdp  DECIMAL(38, 18)
 ) WITH (
    'connector.type' = 'jdbc',
-   'connector.url' = 'jdbc:mysql://localhost:3306/test',
+   'connector.url' = 'jdbc:mysql://localhost:3306/flink',
    'connector.username' = 'root',
+   'connector.password' = '123456',
    'connector.table' = 'gmv',
    'connector.driver' = 'com.mysql.jdbc.Driver',
    'connector.write.flush.max-rows' = '5000',
@@ -57,11 +59,11 @@ CREATE TABLE gmv (
    'connector.write.max-retries' = '3')
 insert into gmv
 select max(log_ts),
- item, COUNT(order_id) as order_cnt, max(currency_time), cast(sum(amount_kg) * max(rate) as DOUBLE)  as gmv,
- max(timestamp9), max(time9), max(gdp)
+ item, COUNT(order_id) as order_cnt, max(currency_timestamp), cast(sum(amount_kg) * max(rate) as DOUBLE)  as gmv,
+ max(precise_timestamp), max(precise_time), max(gdp)
  from (
- select cast(o.ts as VARCHAR) as log_ts, o.item as item, o.order_id as order_id, c.currency_time as currency_time,
- o.amount_kg as amount_kg, c.rate as rate, c.timestamp9 as timestamp9, c.time9 as time9, c.gdp as gdp
+ select cast(o.ts as VARCHAR) as log_ts, o.item as item, o.order_id as order_id, c.currency_timestamp as currency_timestamp,
+ o.amount_kg as amount_kg, c.rate as rate, c.precise_timestamp as precise_timestamp, c.precise_time as precise_time, c.gdp as gdp
  from orders as o
  join currency FOR SYSTEM_TIME AS OF o.proc_time c
  on o.currency = c.currency_name
