@@ -1,5 +1,5 @@
 create table csv( pageId VARCHAR, eventId VARCHAR, recvTime VARCHAR) with ( 'connector.type' = 'filesystem',
- 'connector.path' = '/Users/bang/sourcecode/project/flink-sql-etl/data-generator/src/main/resources/user3.csv',
+ 'connector.path' = '/Users/ohmeatball/Work/flink-sql-etl/data-generator/src/main/resources/user3.csv',
  'format.type' = 'csv',
  'format.fields.0.name' = 'pageId',
  'format.fields.0.data-type' = 'STRING',
@@ -16,9 +16,9 @@ CREATE TABLE test_upsert (
   clkCnt bigint
 ) WITH (
 'connector.type' = 'elasticsearch',
-'connector.version' = '6',
+'connector.version' = '7',
 'connector.hosts' = 'http://localhost:9200',
-'connector.index' = 'flink_zhangle_pageview',
+'connector.index' = 'pageview',
 'connector.document-type' = '_doc',
 'update-mode' = 'upsert',
 'connector.key-delimiter' = '$',
@@ -26,7 +26,7 @@ CREATE TABLE test_upsert (
 'connector.bulk-flush.interval' = '1000',
 'format.type' = 'json'
 )
-
+-- need to modify sql config to register ts2Date func
 INSERT INTO test_upsert
   SELECT aggId, pageId, ts,
   count(case when eventId = 'exposure' then 1 else null end) as expoCnt,
