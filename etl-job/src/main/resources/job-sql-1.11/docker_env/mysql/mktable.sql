@@ -13,7 +13,8 @@ CREATE TABLE gmv (
   item varchar(200),
   order_cnt BIGINT,
   currency_timestamp TIMESTAMP,
-  gmv DECIMAL(38, 18),  precise_timestmap TIMESTAMP(6),
+  gmv DECIMAL(38, 18),  
+  precise_timestamp TIMESTAMP(6),
   precise_time TIME(6),
   gdp DECIMAL(38, 18),
   primary key(item)
