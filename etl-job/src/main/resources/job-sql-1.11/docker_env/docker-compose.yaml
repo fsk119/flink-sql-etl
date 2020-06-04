@@ -1,4 +1,4 @@
-version: '2.1'
+version: "3"
 services:
     datagen:
         build: 
@@ -27,7 +27,7 @@ services:
             - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
             - KAFKA_CREATE_TOPICS:"order_cnt:1:1,orders:1:1,currency:1:1,avro_from_csv:1:1"
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
+            - kafka:/var/run/docker.sock
     mysql:
         image: mysql:8.0
         volumes:
@@ -54,3 +54,7 @@ services:
             nofile:
                 soft: 65536
                 hard: 65536
+ 
+volumes:
+    kafka: 
+    
