@@ -9,8 +9,7 @@ CREATE TABLE orders (
   ts as order_time + INTERVAL '1' SECOND,
   WATERMARK FOR order_time AS order_time) WITH (
   'connector' = 'kafka',
-  'topic' = 'flink_orders',
-  'properties.zookeeper.connect' = 'localhost:2181',
+  'topic' = 'orders',
   'properties.bootstrap.servers' = 'localhost:9092',
   'properties.group.id' = 'testGroup3',
   'scan.startup.mode' = 'earliest-offset',
@@ -24,10 +23,9 @@ CREATE TABLE order_cnt (
 ) WITH (
   'connector' = 'kafka',
   'topic' = 'order_cnt',
-  'properties.zookeeper.connect' = 'localhost:2181',
   'properties.bootstrap.servers' = 'localhost:9092',
   'format' = 'json',
-  "scan.start-up.mode" = "ealiest_offset"
+  'scan.startup.mode' = 'earliest-offset'
 )
 insert into order_cnt
 select TUMBLE_END(order_time, INTERVAL '10' SECOND),
