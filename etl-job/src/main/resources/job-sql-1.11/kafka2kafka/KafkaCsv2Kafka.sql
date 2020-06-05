@@ -37,6 +37,8 @@ CREATE TABLE csvData (
     'scan.startup.mode' = 'earliest-offset',
     'format' = 'csv'
 )
+-- NOTICE: If we want to flush data into file system, 
+--         we must set checkpoint interval in flink-conf.yaml 
 CREATE TABLE csvTest( 
     user_name STRING, 
     is_new BOOLEAN, 
@@ -44,13 +46,10 @@ CREATE TABLE csvTest(
 ) WITH ( 
     'connector' = 'filesystem',
     'path' = '/Users/ohmeatball/Work/flink-sql-etl/data-generator/src/main/resources/testKafka2CSVNewformat.csv',
-    'format' = 'csv',
---    'update-mode' = 'append',
---    'format.fields.0.data-type' = 'STRING',
---    'format.fields.1.name' = 'is_new',
---    'format.fields.1.data-type' = 'BOOLEAN',
---    'format.fields.2.name' = 'content',
---    'format.fields.2.data-type' = 'STRING'
+    'format' = 'csv'
+    'sink.partition-commit.delay'='0 s',
+    'sink.partition-commit.policy.kind'='success-file',
+    'sink.rolling-policy.time-interval'='10 s'
 )
 insert into csvTest select user_name, is_new, content from csvData
 

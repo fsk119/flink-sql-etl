@@ -41,8 +41,10 @@ CREATE TABLE currency (
 CREATE TABLE gmv (
   log_per_min STRING,
   item STRING,
-  order_cnt BIGINT,currency_timestamp TIMESTAMP(3),
-  gmv DECIMAL(38, 18),  precise_timestmap TIMESTAMP(6),
+  order_cnt BIGINT,
+  currency_timestamp TIMESTAMP(3),
+  gmv DECIMAL(25, 10),  
+  precise_timestamp TIMESTAMP(6),
   precise_time TIME(6),
   gdp DECIMAL(38, 18)
 ) WITH (
@@ -57,11 +59,11 @@ CREATE TABLE gmv (
 
 insert into gmv
     select 
-        cast(TUMBLE_END(o.order_time, INTERVAL '10' SECOND) as VARCHAR) as log_ts,
+        cast(TUMBLE_END(o.order_time, INTERVAL '10' SECOND) as VARCHAR) as log_per_min,
         o.item, 
         COUNT(o.order_id) as order_cnt, 
         c.currency_timestamp, 
-        cast(sum(o.amount_kg) * c.rate as DECIMAL(38, 18))  as gmv,
+        cast(sum(o.amount_kg) * c.rate as DECIMAL(25, 10))  as gmv,
         c.precise_timestamp, c.precise_time, c.gdp
     from orders as o
     join currency FOR SYSTEM_TIME AS OF o.proc_time c

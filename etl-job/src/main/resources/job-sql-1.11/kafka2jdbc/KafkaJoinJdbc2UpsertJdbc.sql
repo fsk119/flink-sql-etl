@@ -38,26 +38,27 @@ CREATE TABLE currency (
    'lookup.cache.ttl' = '10s',
    'sink.max-retries' = '3')
 
-CREATE TABLE gmv (
+CREATE TABLE gmv_with_pk (
     log_per_min STRING,
     item STRING,
     order_cnt BIGINT,
-    currency_time TIMESTAMP(3),
+    currency_timestamp TIMESTAMP(3),
     gmv DECIMAL(38, 18),  precise_timestamp TIMESTAMP(6),
     precise_time TIME(6),
-    gdp  DECIMAL(38, 18)
+    gdp  DECIMAL(38, 18),
+    PRIMARY KEY(item) NOT ENFORCED
 ) WITH (
    'connector' = 'jdbc',
    'url' = 'jdbc:mysql://localhost:3306/flink',
    'username' = 'root',
    'password' = '123456',
-   'table-name' = 'gmv',
+   'table-name' = 'gmv_with_pk',
    'driver' = 'com.mysql.jdbc.Driver',
    'sink.buffer-flush.max-rows' = '5000',
    'sink.buffer-flush.interval' = '2',
    'sink.max-retries' = '3')
 
-insert into gmv
+insert into gmv_with_pk
     select
         max(log_ts),
         item, 
@@ -80,3 +81,5 @@ insert into gmv
         on o.currency = c.currency_name
     ) a 
     group by item
+
+

@@ -16,8 +16,19 @@ CREATE TABLE gmv (
   gmv DECIMAL(38, 18),  
   precise_timestamp TIMESTAMP(6),
   precise_time TIME(6),
+  gdp DECIMAL(38, 18)
+);
+
+CREATE TABLE gmv_with_pk(
+  log_per_min varchar(200),
+  item varchar(200),
+  order_cnt BIGINT,
+  currency_timestamp TIMESTAMP,
+  gmv DECIMAL(38, 18),  
+  precise_timestamp TIMESTAMP(6),
+  precise_time TIME(6),
   gdp DECIMAL(38, 18),
-  primary key(item)
+  PRIMARY KEY(item)
 );
 
 CREATE TABLE currency (
