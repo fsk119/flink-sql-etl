@@ -1,4 +1,4 @@
-## batch
+-- batch
 create table currency(
     currency_id BIGINT,
     currency_name STRING,
@@ -42,7 +42,7 @@ INSERT INTO es_currency
 SELECT currency_id, currency_name, rate, currency_timestamp, country, precise_timestamp, precise_time, gdp 
 FROM currency
 
- ## streaming
+-- streaming
 CREATE TABLE orders (
   order_id STRING,
   item    STRING,
@@ -80,3 +80,17 @@ CREATE TABLE es_orders(
 insert into es_orders
 select order_id, item, order_time from orders;
 
+-- ARRAY TEST
+CREATE TABLE es_array(
+    order_id INT,
+    items ARRAY<STRING>
+)WITH(
+   'connector' = 'elasticsearch-7',
+   'hosts' = 'http://localhost:9200',
+   'index' = 'es_orders_array',
+   'document-id.key-delimiter' = '$',
+   'sink.bulk-flush.interval' = '1000',
+   'format' = 'json'
+)
+INSERT INTO es_array
+VALUES (10, ARRAY['APPLE', 'ORANGE'])

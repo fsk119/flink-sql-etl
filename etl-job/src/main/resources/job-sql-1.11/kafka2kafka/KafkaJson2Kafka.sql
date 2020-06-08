@@ -32,3 +32,18 @@ select TUMBLE_END(order_time, INTERVAL '10' SECOND),
  item, COUNT(order_id) as order_cnt, CAST(sum(amount_kg) as BIGINT) as total_quality
 from orders
 group by item, TUMBLE(order_time, INTERVAL '10' SECOND)
+
+----------------------------------------------------------
+-- test datatype with kafka
+CREATE TABLE array_test (
+    id BIGINT,
+    arr ARRAY<STRING>
+) WITH (
+    'connector' = 'kafka',
+    'topic' = 'test_read_write_array',
+    'properties.bootstrap.servers' = 'localhost:9092',
+    'format' = 'json',
+    'scan.startup.mode' = 'earliest-offset'
+)
+INSERT INTO array_test
+VALUES (1, ARRAY['HELLO', 'WORLD'])
