@@ -46,9 +46,7 @@ CREATE TABLE csvTest(
 ) WITH ( 
     'connector' = 'filesystem',
     'path' = '/Users/ohmeatball/Work/flink-sql-etl/data-generator/src/main/resources/testKafka2CSVNewformat.csv',
-    'format' = 'csv'
-    'sink.partition-commit.delay'='0 s',
-    'sink.partition-commit.policy.kind'='success-file',
+    'format' = 'csv',
     'sink.rolling-policy.time-interval'='10 s'
 )
 insert into csvTest select user_name, is_new, content from csvData
